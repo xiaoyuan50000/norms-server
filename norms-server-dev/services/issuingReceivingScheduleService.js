@@ -31,7 +31,7 @@ module.exports.QueryIssuingReveivingScheduleChart = async function (req, res) {
         filter += ` and scheduleStatus = ?`
         replacements.push(scheduledBy)
     }
-    let rows = await sequelizeObj.query(
+    await sequelizeObj.query(
         `SELECT
             bank,
             SUM(newNotesAmount) AS newNotesAmountTotal,

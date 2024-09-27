@@ -94,7 +94,7 @@ module.exports.receiveToken = async function (req, res) {
         isValidityToken = false;
     }
     // console.log("otObj",otObj)
-    if(!decodedToken||!decodedToken?.data||!otObj||decodedToken.data.name!==otObj.otGateway){
+    if(!decodedToken||!otObj||decodedToken.data.name!==otObj.otGateway){
         isValidityToken = false;
     }
     if(!isValidityToken){

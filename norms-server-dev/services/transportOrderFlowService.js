@@ -227,7 +227,7 @@ module.exports.SaveDiagramData = async function (req, res) {
         continue
       }
 
-      for (i; i < existingOrder.length;) {
+      if (i < existingOrder.length) {
         const existingRecord = existingOrder[i];
         if (existingRecord.sourceDestination === newRecord.sourceDestination && existingRecord.nextDestination === newRecord.nextDestination) {
           mergedRecords.push(existingRecord);
@@ -236,7 +236,6 @@ module.exports.SaveDiagramData = async function (req, res) {
           mergedRecords.push(newRecord);
           isExistingRecordFound = false;
         }
-        break;
       }
     }
     return mergedRecords;
