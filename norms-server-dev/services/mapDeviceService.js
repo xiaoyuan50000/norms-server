@@ -80,6 +80,7 @@ module.exports.updateAllStatus = async function (req, res) {
 
     return Response.success(res, result)
   } catch (error) {
+    log.error(error)
     throw error;
   }
 };
