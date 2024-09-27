@@ -72,6 +72,8 @@ router.post('/getCartonsReceivedData', receivingScheduleData.getCartonsReceivedD
 router.post('/receivingScheduleAddTuNamber', receivingScheduleData.receivingScheduleAddTuNamber);
 router.post('/receivingScheduleAddNewData', receivingScheduleData.receivingScheduleAddNewData);
 router.post('/getRsDetailedData', receivingScheduleData.getRsDetailedData);
+router.post('/rsDeleteDetailData', receivingScheduleData.rsDeleteDetailData);
+router.post('/saveReceivingScheduleData', receivingScheduleData.saveReceivingScheduleData);
 // router.post('/receivingScheduleCoordinateUpdating', receivingScheduleData.receivingScheduleCoordinateUpdating);
 
 
