@@ -22,11 +22,12 @@ module.exports.SendTokenInfo = async function (req, res) {
 
     //select user by database2,into session
 
-    let rows = {userId};
+    // let rows = {userId};
 
-    let [userObj] = await sequelizeObj2.query(
-        `SELECT * FROM sys_user where id =${userId}`,
+    await sequelizeObj2.query(
+        `SELECT * FROM sys_user where id =?`,
         {
+            replacements: [userId],
             type: QueryTypes.SELECT,
         }
     )

@@ -24,8 +24,9 @@ module.exports.updateApiKey = async function (req, res) {
     let {id} = req.body;
     //
     let [otObj] = await sequelizeObj.query(
-        `SELECT * FROM api_key_list where id =${id}`,
+        `SELECT * FROM api_key_list where id = ?`,
         {
+            replacements: [id],
             type: QueryTypes.SELECT,
         }
     )
@@ -83,8 +84,9 @@ module.exports.receiveToken = async function (req, res) {
     });
     // console.log("decodedToken",decodedToken)
     let [otObj] = await sequelizeObj.query(
-        `SELECT * FROM api_key_list where token ='${token}'`,
+        `SELECT * FROM api_key_list where token =?`,
         {
+            replacements: [token],
             type: QueryTypes.SELECT,
         }
     )
@@ -92,7 +94,7 @@ module.exports.receiveToken = async function (req, res) {
         isValidityToken = false;
     }
     // console.log("otObj",otObj)
-    if(!decodedToken||!decodedToken.data||!otObj||decodedToken.data.name!==otObj.otGateway){
+    if(!decodedToken||!decodedToken?.data||!otObj||decodedToken.data.name!==otObj.otGateway){
         isValidityToken = false;
     }
     if(!isValidityToken){
@@ -105,8 +107,9 @@ module.exports.receiveToken = async function (req, res) {
 module.exports.updateStatus = async function (req, res) {
     let {apiKey} = req.body;
     let [otObj] = await sequelizeObj.query(
-        `SELECT * FROM api_key_list where apiKey ='${apiKey}'`,
+        `SELECT * FROM api_key_list where apiKey = ?`,
         {
+            replacements: [apiKey],
             type: QueryTypes.SELECT,
         }
     )

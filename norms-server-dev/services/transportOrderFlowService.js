@@ -216,28 +216,27 @@ module.exports.SaveDiagramData = async function (req, res) {
     for (let i = 0; i < recordsToSave.length; i++) {
       const newRecord = recordsToSave[i];
 
-      if (isExistingRecordFound) {
-        if (i < existingOrder.length) {
-          for (i; i < existingOrder.length;) {
-            const existingRecord = existingOrder[i];
-            if (existingRecord.sourceDestination === newRecord.sourceDestination && existingRecord.nextDestination === newRecord.nextDestination) {
-              mergedRecords.push(existingRecord);
-              isExistingRecordFound = true;
+      if (!isExistingRecordFound) {
+        mergedRecords.push(newRecord);
+        continue
+      }
 
-              break;
-            } else {
-              mergedRecords.push(newRecord);
-              isExistingRecordFound = false;
+      if (i >= existingOrder.length) {
+        mergedRecords.push(newRecord);
+        isExistingRecordFound = true;
+        continue
+      }
 
-              break;
-            }
-          }
+      for (i; i < existingOrder.length;) {
+        const existingRecord = existingOrder[i];
+        if (existingRecord.sourceDestination === newRecord.sourceDestination && existingRecord.nextDestination === newRecord.nextDestination) {
+          mergedRecords.push(existingRecord);
+          isExistingRecordFound = true;
         } else {
           mergedRecords.push(newRecord);
-          isExistingRecordFound = true;
+          isExistingRecordFound = false;
         }
-      } else {
-        mergedRecords.push(newRecord);
+        break;
       }
     }
     return mergedRecords;

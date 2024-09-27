@@ -47,10 +47,10 @@ module.exports.QueryIssuingReveivingScheduleChart = async function (req, res) {
         }
     )
 
-    for (let row of rows) {
-        let { bank, newNotesAmountTotal } = row
+    // for (let row of rows) {
+    //     let { bank, newNotesAmountTotal } = row
 
-    }
+    // }
 }
 
 const getScheduleByType = function (total) {

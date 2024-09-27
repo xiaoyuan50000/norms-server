@@ -26,8 +26,9 @@ module.exports.updateStatus = async function (req, res) {
   let { name, status, isError, operateStatus,errorInfo } = req.body.param;
 
   let [device] = await sequelizeObj.query(
-    `SELECT * FROM sys_device where name='${name}'`,
+    `SELECT * FROM sys_device where name=?`,
     {
+      replacements: [name],
       type: QueryTypes.SELECT,
     }
   )

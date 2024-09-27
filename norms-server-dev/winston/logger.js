@@ -10,17 +10,22 @@ const dateFileConfig = {
     maxFiles: "1d",
 };
 
-const customFilePrintFormat = function (label = '', ifConsole = false) {
+const customFilePrintFormat = function (label = '') {
     return format.combine(
         format.label({ label }),
         format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss.SSS' }),
         format.printf((i) => {
-            if (ifConsole) {
-                return format.colorize().colorize(i.level, `[${i.timestamp}] [${i.level.toString().toUpperCase()}] ${i.label} - `) + i.message
-            } else {
-                return `[${i.timestamp}] [${i.level.toString().toUpperCase()}] ${i.label} ${i.message}`
-            }
-            
+            return `[${i.timestamp}] [${i.level.toString().toUpperCase()}] ${i.label} ${i.message}`
+        }),
+    );
+}
+
+const customConsolePrintFormat = function (label = '') {
+    return format.combine(
+        format.label({ label }),
+        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss.SSS' }),
+        format.printf((i) => {
+            return format.colorize().colorize(i.level, `[${i.timestamp}] [${i.level.toString().toUpperCase()}] ${i.label} - `) + i.message
         }),
     );
 }
@@ -41,7 +46,7 @@ const fileLogger = function (label) {
                 ...dateFileConfig
             }),
             new transports.Console({
-                format: customFilePrintFormat(label, true),
+                format: customConsolePrintFormat(label),
             })
         ]
     });
