@@ -72,8 +72,9 @@ module.exports.updateAllStatus = async function (req, res) {
 
   try {
     const result = await sequelizeObj.query(
-      `UPDATE sys_device SET status = '${status}'`,
+      `UPDATE sys_device SET status = ?`,
       {
+        replacements: [status],
         type: QueryTypes.UPDATE,
       }
     )
