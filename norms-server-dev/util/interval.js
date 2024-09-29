@@ -103,7 +103,7 @@ const handlerOverView = async function () {
       type: QueryTypes.SELECT,
     }
   )
-  noteProcessingStatus.forEach(e => {
+  noteProcessingStatus && noteProcessingStatus.forEach(e => {
     let data = {}
     data['name'] = e.name
     data['num'] = e.num
@@ -120,7 +120,7 @@ const handlerOverView = async function () {
       type: QueryTypes.SELECT,
     }
   )
-  subsystemStatus.forEach(e => {
+  subsystemStatus && subsystemStatus.forEach(e => {
     let data = {}
     data['name'] = e.name
     data['num'] = e.remaining
@@ -136,11 +136,6 @@ module.exports.handlerOverView = handlerOverView
 
 
 async function updateOrCreate(field, data) {
-  if(!data.length){
-    return
-  }
-
-
   let obj = {}
   obj[field] = JSON.stringify(data)
   let [overview] = await sequelizeObj.query(

@@ -9,6 +9,9 @@ let indexRouter = require('./routes/index');
 let responseUtil = require('./util/response')
 const log = require('./winston/logger').logger('AppJS');
 const systemConf = require('./conf/systemConf');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const timeout = require('connect-timeout');
 let {handlerOverView} = require('./util/interval')
 
 let app = express();
@@ -18,6 +21,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+const limiter = rateLimit({
+	windowMs: process.env.RATE_LIMITER_WINDOWSWS,
+	max: process.env.RATE_LIMITER_MAX,
+	message: process.env.RATE_LIMITER_MESSAGE,
+})
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -30,13 +38,29 @@ const corsOptions = {
   }
 }
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(helmet());
+app.use(helmet.hsts({
+  maxAge: 31536000,
+	includeSubDomains: true,
+	preload: true,
+}));
+
+
+app.use((req, res, next) => {
+	res.header('Access-Control-Allow-Origin', '*');
+	next();
+});
+app.use((req, res, next) => {
+	res.header('Permissions-Policy', 'camera=()');
+	next();
+});
+
+app.use(timeout('10s'));
 
 app.use('/', indexRouter);
 
-app.use('/favicon.ico', (req, res) => {
-  res.status(204).end(); // 204 No Content
-});
+app.use(limiter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
